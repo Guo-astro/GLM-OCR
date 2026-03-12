@@ -93,18 +93,20 @@ Deploy the GLM-OCR model locally for full control. The SDK provides the complete
 Install vLLM:
 
 ```bash
-uv pip install -U vllm --torch-backend=auto --extra-index-url https://wheels.vllm.ai/nightly
-# Or use Docker
 docker pull vllm/vllm-openai:nightly
+```
+
+Or using with pip:
+
+```bash
+pip install -U "vllm>=0.17.0"
 ```
 
 Launch the service:
 
 ```bash
-# In docker container, uv may not be need for transformers install
-uv pip install git+https://github.com/huggingface/transformers.git
+pip install "transformers>=5.3.0"
 
-# Run with MTP for better performance
 vllm serve zai-org/GLM-OCR --allowed-local-media-path / --port 8080 --speculative-config '{"method": "mtp", "num_speculative_tokens": 1}' --served-model-name glm-ocr
 ```
 
@@ -114,19 +116,20 @@ Install SGLang:
 
 ```bash
 docker pull lmsysorg/sglang:dev
-# Or build from source
-uv pip install git+https://github.com/sgl-project/sglang.git#subdirectory=python
+```
+
+Or using with pip:
+
+```bash
+pip install "sglang>=0.5.9"
 ```
 
 Launch the service:
 
 ```bash
-# In docker container, uv may not be need for transformers install
-uv pip install git+https://github.com/huggingface/transformers.git
+pip install "transformers>=5.3.0"
 
-# Run with MTP for better performance
-python -m sglang.launch_server --model zai-org/GLM-OCR --port 8080 --speculative-algorithm NEXTN --speculative-num-steps 3 --speculative-eagle-topk 1 --speculative-num-draft-tokens 4 --served-model-name glm-ocr
-# Modify the speculative config base on your device
+sglang serve --model zai-org/GLM-OCR --port 8080 --speculative-algorithm NEXTN --speculative-num-steps 3 --speculative-eagle-topk 1 --speculative-num-draft-tokens 4 --served-model-name glm-ocr
 ```
 
 ##### Update Configuration
